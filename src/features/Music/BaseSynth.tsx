@@ -22,7 +22,7 @@ const BaseSynth = ({ type, config = {} }: Props) => {
 
   useEffect(() => {
     // Make sure Synth is loaded before playing notes (or it crashes app)
-    if (!loaded.current) return;
+    // if (!loaded.current) return;
     const now = Tone.now();
     if (!synth.current) return;
 
@@ -53,9 +53,13 @@ const BaseSynth = ({ type, config = {} }: Props) => {
 
   useEffect(() => {
     if (!synth.current) {
+      console.log("creating synth");
       synth.current = new Tone[type]({
         ...config,
-        onload: () => (loaded.current = true),
+        onload: () => {
+          // loaded.current = true;
+          console.log("loaded now!");
+        },
       }).toDestination();
     }
   }, []);
