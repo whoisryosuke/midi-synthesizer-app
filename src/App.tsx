@@ -4,13 +4,15 @@ import Music from "./features/Music/Music";
 import Keyboard from "./features/Keyboard";
 import P5Particles from "./components/p5/P5Test/P5Particles";
 import KeyboardUI from "./components/KeyboardUI/KeyboardUI";
+import P5FFTDebug from "./components/p5/P5FFTDebug";
 
 export default function App() {
   return (
     <div className="App">
       <MidiKeyboard />
       {/* <Scene /> */}
-      <P5Particles />
+      {/* <P5Particles /> */}
+      <P5FFTDebug />
       <Music />
       <Keyboard />
       <KeyboardUI />

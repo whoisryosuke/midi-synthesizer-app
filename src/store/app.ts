@@ -1,3 +1,4 @@
+import * as Tone from "tone";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { SynthTypes } from "../features/Music/Music";
@@ -13,6 +14,8 @@ interface AppState {
   setMute: (mute: boolean) => void;
   synthType: SynthTypes;
   setSynthType: (synthType: SynthTypes) => void;
+  fft: React.RefObject<Tone.FFT> | null;
+  setFft: (fft: React.RefObject<Tone.FFT>) => void;
 }
 
 export const useAppStore = create<AppState>()(
@@ -26,5 +29,7 @@ export const useAppStore = create<AppState>()(
     setMute: (mute) => set((state) => ({ mute })),
     synthType: "poly",
     setSynthType: (synthType) => set((state) => ({ synthType })),
+    fft: null,
+    setFft: (fft) => set((state) => ({ fft })),
   }))
 );

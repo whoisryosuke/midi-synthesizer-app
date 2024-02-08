@@ -13,11 +13,12 @@ type Props = {
 const BaseSynth = ({ type, config = {} }: Props) => {
   const notesPlaying = useRef<UserInputMap>({});
   const { input } = useInputStore();
-  const { mute, setMute } = useAppStore();
+  const { mute, setMute, setFft } = useAppStore();
   const loaded = useRef(false);
 
   // Create a synth and connect it to the main output (your speakers)
   const synth = useRef<Tone.PolySynth | Tone.Sampler | null>(null);
+  const fft = useRef<Tone.FFT | null>(null);
   const inputKeys = Object.keys(input) as UserInputKeys[];
 
   useEffect(() => {
@@ -54,13 +55,18 @@ const BaseSynth = ({ type, config = {} }: Props) => {
   useEffect(() => {
     if (!synth.current) {
       console.log("creating synth");
+      fft.current = new Tone.FFT();
       synth.current = new Tone[type]({
         ...config,
         onload: () => {
           // loaded.current = true;
           console.log("loaded now!");
         },
-      }).toDestination();
+      })
+        .chain(fft.current, Tone.Destination)
+        .toDestination();
+
+      setFft(fft);
     }
   }, []);
 
