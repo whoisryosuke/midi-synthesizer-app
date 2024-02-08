@@ -1,17 +1,28 @@
 import React, { useEffect, useRef } from "react";
-import { Note, UserInputMap, useInputStore } from "../store/input";
+import { UserInputKeys, UserInputMap, useInputStore } from "../../store/input";
 import * as Tone from "tone";
+import { useAppStore } from "../../store/app";
 
-type Props = {};
+const SYNTH_TYPES = ["PolySynth", "Sampler"] as const;
 
-const Music = (props: Props) => {
+type Props = {
+  type: (typeof SYNTH_TYPES)[number];
+  config?: any;
+};
+
+const BaseSynth = ({ type, config = {} }: Props) => {
   const notesPlaying = useRef<UserInputMap>({});
   const { input } = useInputStore();
+  const { mute, setMute } = useAppStore();
+  const loaded = useRef(false);
+
   // Create a synth and connect it to the main output (your speakers)
-  const synth = useRef<Tone.PolySynth | null>(null);
-  const inputKeys = Object.keys(input) as Note[];
+  const synth = useRef<Tone.PolySynth | Tone.Sampler | null>(null);
+  const inputKeys = Object.keys(input) as UserInputKeys[];
 
   useEffect(() => {
+    // Make sure Synth is loaded before playing notes (or it crashes app)
+    if (!loaded.current) return;
     const now = Tone.now();
     if (!synth.current) return;
 
@@ -42,11 +53,23 @@ const Music = (props: Props) => {
 
   useEffect(() => {
     if (!synth.current) {
-      synth.current = new Tone.PolySynth().toDestination();
+      synth.current = new Tone[type]({
+        ...config,
+        onload: () => (loaded.current = true),
+      }).toDestination();
     }
   }, []);
+
+  // Mute audio when requested
+  useEffect(() => {
+    if (mute) {
+      const now = Tone.now();
+      synth.current?.releaseAll(now);
+      setMute(false);
+    }
+  }, [mute]);
 
   return <></>;
 };
 
-export default Music;
+export default BaseSynth;
