@@ -53,6 +53,7 @@ const KeyboardKeyBlackSet = (props: Props) => {
     >
       {BLACK_KEY_POSITIONS.map((blackKey) => (
         <KeyboardKeyBlack
+          key={blackKey.label}
           label={blackKey.label}
           style={{ left: blackKey.offset }}
         />

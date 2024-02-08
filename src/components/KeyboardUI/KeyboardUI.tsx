@@ -23,7 +23,7 @@ const KeyboardUI = (props: Props) => {
       <div style={{ display: "flex" }}>
         {baseNotes.map((baseNote) => {
           return (
-            <div style={{ position: "relative" }}>
+            <div key={baseNote} style={{ position: "relative" }}>
               <KeyboardKeyBlackSet />
               <div style={{ display: "flex" }}>
                 {keys[baseNote].map((note) => (
