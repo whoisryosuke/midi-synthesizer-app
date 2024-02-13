@@ -13,6 +13,7 @@ export const BUTTON_STYLES = css`
   border: 2.5px solid ${({ theme }) => theme.colors.button.border.default.color};
   box-shadow: ${({ theme }) => theme.shadows.default};
   border-radius: ${({ theme }) => theme.space[5]};
+  text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
 
   &:hover {
     border-color: ${({ theme }) => theme.colors.button.border.hovered.color};

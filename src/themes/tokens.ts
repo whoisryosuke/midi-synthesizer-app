@@ -65,11 +65,19 @@ export const FONT_SIZE_PROPERTIES = {
   8: "96px",
 };
 
-const TEXT_STYLES = {
-  h1: {
-    fontSize: FONT_SIZE_PROPERTIES["7"],
-  },
+export const TEXT_STYLES = {
+  billboard: FONT_SIZE_PROPERTIES["8"],
+  title: FONT_SIZE_PROPERTIES["7"],
+  h1: FONT_SIZE_PROPERTIES["6"],
+  h2: FONT_SIZE_PROPERTIES["5"],
+  h3: FONT_SIZE_PROPERTIES["4"],
+  h4: FONT_SIZE_PROPERTIES["3"],
+  h5: FONT_SIZE_PROPERTIES["2"],
+  h6: FONT_SIZE_PROPERTIES["1"],
+  p: FONT_SIZE_PROPERTIES["1"],
+  label: FONT_SIZE_PROPERTIES["0"],
 };
+export type TextStyles = keyof typeof TEXT_STYLES;
 
 // export const SPACE = [0, 4, 8, 16, 32, 64, 128, 256, 512];
 export const SPACE_PROPERTIES = {
