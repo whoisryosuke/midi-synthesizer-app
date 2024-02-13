@@ -72,6 +72,23 @@ const SliderThumb = styled(AriaSliderThumb)`
   &[data-orientation="vertical"] {
     left: 50%;
   }
+
+  &:after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 5px;
+    width: 12px;
+    height: 2px;
+    border-radius: 2px;
+    background: ${({ theme }) => theme.colors.input.bg.default};
+  }
+  &:hover:after {
+    background: ${({ theme }) => theme.colors.button.bg.default};
+  }
+  &[data-dragging]:after {
+    background: ${({ theme }) => theme.colors.button.bg.hovered};
+  }
 `;
 
 const SliderProgress = styled("div")`
