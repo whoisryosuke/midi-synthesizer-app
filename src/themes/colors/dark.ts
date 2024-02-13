@@ -10,6 +10,7 @@ export const primaryColors = {
   background_level2: "rgba(200,200,200,1)",
   background_level3: "rgba(100,100,100,1)",
   background_overlay: "rgba(0,0,0,0.8)",
+  icon: BASE_COLORS["gray-5"],
   button: {
     bg: {
       default: `linear-gradient(180deg, ${BASE_COLORS["gray-7"]} 0%, ${BASE_COLORS["gray-8"]} 65%)`,
