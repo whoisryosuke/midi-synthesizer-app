@@ -20,8 +20,8 @@ const SliderBase = styled(AriaSlider)`
     "label output"
     "track track";
   grid-template-columns: 1fr auto;
-  color: var(--text-color);
-  width: calc(100% - 20px);
+  color: ${({ theme }) => theme.colors.text};
+  padding: ${({ theme }) => theme.space[4]};
 
   &[data-orientation="horizontal"] {
     flex-direction: column;
