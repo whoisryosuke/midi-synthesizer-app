@@ -76,6 +76,7 @@ const KnobButton = styled(AriaSliderThumb)`
   position: absolute;
   bottom: 0;
   left: 16px !important;
+  transform: none !important;
 
   display: flex;
   justify-content: center;
