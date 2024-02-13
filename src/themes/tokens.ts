@@ -65,6 +65,12 @@ export const FONT_SIZE_PROPERTIES = {
   8: "96px",
 };
 
+const TEXT_STYLES = {
+  h1: {
+    fontSize: FONT_SIZE_PROPERTIES["7"],
+  },
+};
+
 // export const SPACE = [0, 4, 8, 16, 32, 64, 128, 256, 512];
 export const SPACE_PROPERTIES = {
   0: "0px",

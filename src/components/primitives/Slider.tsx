@@ -10,7 +10,9 @@ import styled from "styled-components";
 import { BUTTON_STYLES } from "../../themes/styles/button";
 
 const SLIDER_TRACK_HEIGHT = 14;
-const SLIDER_PROGRESS_HEIGHT = SLIDER_TRACK_HEIGHT - 4;
+const SLIDER_PROGRESS_PADDING = 3;
+const SLIDER_PROGRESS_HEIGHT =
+  SLIDER_TRACK_HEIGHT - SLIDER_PROGRESS_PADDING * 2;
 
 const SliderBase = styled(AriaSlider)`
   display: grid;
@@ -56,7 +58,7 @@ const SliderThumb = styled(AriaSliderThumb)`
   height: 25px;
   forced-color-adjust: none;
   position: absolute;
-  top: 20%;
+  top: 50%;
 
   border-radius: ${({ theme }) => theme.space[3]};
 
@@ -75,6 +77,7 @@ const SliderThumb = styled(AriaSliderThumb)`
 const SliderProgress = styled("div")`
   position: absolute;
   height: ${SLIDER_PROGRESS_HEIGHT}px;
+  margin: ${SLIDER_PROGRESS_PADDING}px;
 
   background: ${({ theme }) => theme.gradients.primary};
   border-radius: ${({ theme }) => theme.space[3]};
@@ -102,7 +105,6 @@ const SliderTrack = styled(AriaSliderTrack)`
     &:before {
       height: ${SLIDER_TRACK_HEIGHT}px;
       width: 100%;
-      transform: translateY(-50%);
     }
   }
 
@@ -113,7 +115,6 @@ const SliderTrack = styled(AriaSliderTrack)`
     &:before {
       width: 14px;
       height: 100%;
-      transform: translateX(-50%);
     }
   }
 `;
