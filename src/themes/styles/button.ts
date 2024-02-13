@@ -21,6 +21,7 @@ export const BUTTON_STYLES = css`
   }
 
   &[data-pressed="true"] {
+    color: ${({ theme }) => theme.colors.primary.default};
     font-weight: ${({ theme }) => theme.fontWeights.bold};
     background: ${({ theme }) => theme.colors.button.bg.pressed};
     border-color: ${({ theme }) => theme.colors.button.border.hovered.color};

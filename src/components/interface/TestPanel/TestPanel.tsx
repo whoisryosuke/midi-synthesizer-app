@@ -16,12 +16,14 @@ const TestPanel = (props: Props) => {
         right: 0,
         width: "250px",
         height: "100vh",
+        padding: "30px",
       }}
     >
       <Button>Pump up volume</Button>
       <Slider defaultValue={60}></Slider>
       <Switch>Test switch</Switch>
-      <Knob defaultValue={60} />
+      <Knob label="Volume" defaultValue={60} />
+      <Knob label="Mix #1" defaultValue={60} showOutput />
     </PanelContainer>
   );
 };

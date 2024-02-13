@@ -10,51 +10,45 @@ import styled from "styled-components";
 import { BUTTON_STYLES } from "../../../themes/styles/button";
 import KnobProgressBG from "./KnobProgressBG";
 import KnobProgressBar from "./KnobProgressBar";
+import InputLabel from "../InputLabel";
 
+const KNOB_WIDTH = 120;
 const SLIDER_TRACK_HEIGHT = 114;
 const SLIDER_PROGRESS_PADDING = 3;
 const SLIDER_PROGRESS_HEIGHT =
   SLIDER_TRACK_HEIGHT - SLIDER_PROGRESS_PADDING * 2;
 
 const SliderBase = styled(AriaSlider)`
-  display: grid;
-  grid-template-areas:
-    "label output"
-    "track track";
-  grid-template-columns: 1fr auto;
   color: ${({ theme }) => theme.colors.text};
   padding: ${({ theme }) => theme.space[4]};
+  position: relative;
+
+  width: ${KNOB_WIDTH}px;
 
   flex-direction: column;
-`;
-
-const Label = styled(AriaLabel)`
-  grid-area: label;
-  color: ${({ theme }) => theme.colors.text};
-
-  &[data-orientation="vertical"] {
-    display: none;
-  }
+  text-align: center;
 `;
 
 const SliderOutput = styled(AriaSliderOutput)`
-  grid-area: output;
   color: ${({ theme }) => theme.colors.text};
+  background: ${({ theme }) => theme.colors.input.bg.default};
+  padding: ${({ theme }) => `${theme.space[2]} ${theme.space[4]}`};
+  border-radius: ${({ theme }) => theme.space[3]};
+  position: absolute;
 `;
 
 const SliderTrack = styled(AriaSliderTrack)`
-  width: 120px;
-  height: 114px;
+  width: ${KNOB_WIDTH}px;
+  height: ${SLIDER_TRACK_HEIGHT}px;
 
   grid-area: track;
   position: relative;
 
   height: ${SLIDER_TRACK_HEIGHT}px;
-  width: 100%;
 
   &:before {
     height: ${SLIDER_TRACK_HEIGHT}px;
-    width: 100%;
+    width: 120px;
   }
 
   & .knob-progress-bg {
@@ -74,14 +68,18 @@ const KnobTickContainer = styled("div")<KnobButtonProps>`
   transform-origin: center;
 `;
 
-const KnobButton = styled("div")`
+const KnobButton = styled(AriaSliderThumb)`
   ${BUTTON_STYLES}
 
   width:100px;
   height: 100px;
   position: absolute;
   bottom: 0;
-  left: 16px;
+  left: 16px !important;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   border-radius: 50%;
 
@@ -104,6 +102,10 @@ const KnobButton = styled("div")`
   &:hover:before {
     background: ${({ theme }) => theme.colors.button.bg.hovered};
   }
+
+  &[data-dragging="true"] .knob-tick {
+    background: ${({ theme }) => theme.colors.primary.default};
+  }
 `;
 
 const KnobTick = styled("div")`
@@ -125,8 +127,6 @@ type Props = typeof AriaSlider & {
 const Knob = ({ label, showOutput, ...props }: Props) => {
   return (
     <SliderBase {...props}>
-      {label && <Label>{label}</Label>}
-      {showOutput && <SliderOutput />}
       <SliderTrack>
         {({ state }) => (
           <>
@@ -134,12 +134,14 @@ const Knob = ({ label, showOutput, ...props }: Props) => {
             <KnobProgressBar percent={state.getThumbPercent(0) * 100} />
             <KnobButton>
               <KnobTickContainer rotation={state.getThumbPercent(0) * 270 - 90}>
-                <KnobTick />
+                <KnobTick className="knob-tick" />
               </KnobTickContainer>
+              {showOutput && <SliderOutput />}
             </KnobButton>
           </>
         )}
       </SliderTrack>
+      {label && <InputLabel>{label}</InputLabel>}
     </SliderBase>
   );
 };
