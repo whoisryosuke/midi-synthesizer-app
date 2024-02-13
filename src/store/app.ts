@@ -2,9 +2,15 @@ import * as Tone from "tone";
 import { create } from "zustand";
 import { devtools } from "zustand/middleware";
 import { SynthTypes } from "../features/Music/Music";
+import { ThemeOptions } from "../themes";
 // import type {} from "@redux-devtools/extension"; // required for devtools typing
 
 interface AppState {
+  // Theming
+  theme: ThemeOptions;
+  setTheme: (theme: ThemeOptions) => void;
+  toggleTheme: () => void;
+
   // UI
   showGamepad: boolean;
   setShowGamepad: (showGamepad: boolean) => void;
@@ -20,6 +26,13 @@ interface AppState {
 
 export const useAppStore = create<AppState>()(
   devtools((set) => ({
+    theme: "dark",
+    setTheme: (theme) => set((state) => ({ theme })),
+    toggleTheme: () =>
+      set((state) => ({
+        theme: state.theme === "light" ? "dark" : "light",
+      })),
+
     // UI
     showGamepad: true,
     setShowGamepad: (showGamepad) => set((state) => ({ showGamepad })),

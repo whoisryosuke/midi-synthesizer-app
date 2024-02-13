@@ -31,7 +31,7 @@ const P5FFTDebug = (props: Props) => {
 
         let binMapped = p.map(levels[i], -60, 12, p.height, 50);
         p.stroke(0, 50, binMapped);
-        let thisBin = p.line(i * 12, p.height, i * 12, binMapped - 200);
+        p.line(i * 12, p.height, i * 12, binMapped - 200);
         p.pop();
       }
     };
