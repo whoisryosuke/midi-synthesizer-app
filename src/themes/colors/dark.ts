@@ -29,6 +29,11 @@ export const primaryColors = {
       },
     },
   },
+  input: {
+    bg: {
+      default: BASE_COLORS["gray-9"],
+    },
+  },
   primary: {
     default: BASE_COLORS["cyan-4"],
     hovered: BASE_COLORS["cyan-5"],
@@ -44,6 +49,8 @@ export const colors = {
 };
 
 export const gradients = {
+  primary: `linear-gradient(90deg, ${BASE_COLORS["cyan-2"]} 0%, ${BASE_COLORS["cyan-4"]} 100%)`,
+
   // subtle: `linear-gradient(180deg, ${colors.blue['500']} 0%, ${colors.secondary} 100%)`,
   // purple: `linear-gradient(180deg, ${colors.primary} 0%, #A000C4 100%)`,
   none: "none",
@@ -96,6 +103,7 @@ const shadows = {
       0px 0px 16.4px rgba(153, 233, 242, 0.5),
       inset 0px -3px 2px rgba(255, 255, 255, 0.25),
       inset 0px 8px 3px rgba(0, 0, 0, 0.25)`,
+  bottomHighlight: `0px 1px 2px rgba(255, 255, 255, 0.25)`,
 };
 
 const dark = {

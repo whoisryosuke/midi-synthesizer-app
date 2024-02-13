@@ -17,7 +17,7 @@ const TestPanel = (props: Props) => {
       }}
     >
       <Button>Pump up volume</Button>
-      <Slider defaultValue={[30, 60]}></Slider>
+      <Slider defaultValue={60}></Slider>
       <Switch>Test switch</Switch>
     </div>
   );

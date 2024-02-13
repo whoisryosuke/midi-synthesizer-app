@@ -9,18 +9,20 @@ import {
 import styled from "styled-components";
 import { BUTTON_STYLES } from "../../themes/styles/button";
 
+const SLIDER_TRACK_HEIGHT = 14;
+const SLIDER_PROGRESS_HEIGHT = SLIDER_TRACK_HEIGHT - 4;
+
 const SliderBase = styled(AriaSlider)`
   display: grid;
   grid-template-areas:
     "label output"
     "track track";
   grid-template-columns: 1fr auto;
-  max-width: 300px;
   color: var(--text-color);
+  width: calc(100% - 20px);
 
   &[data-orientation="horizontal"] {
     flex-direction: column;
-    width: 300px;
   }
 
   &[data-orientation="vertical"] {
@@ -53,6 +55,8 @@ const SliderThumb = styled(AriaSliderThumb)`
   width: 23px;
   height: 25px;
   forced-color-adjust: none;
+  position: absolute;
+  top: 20%;
 
   border-radius: ${({ theme }) => theme.space[3]};
 
@@ -68,6 +72,14 @@ const SliderThumb = styled(AriaSliderThumb)`
   }
 `;
 
+const SliderProgress = styled("div")`
+  position: absolute;
+  height: ${SLIDER_PROGRESS_HEIGHT}px;
+
+  background: ${({ theme }) => theme.gradients.primary};
+  border-radius: ${({ theme }) => theme.space[3]};
+`;
+
 const SliderTrack = styled(AriaSliderTrack)`
   grid-area: track;
   position: relative;
@@ -77,16 +89,19 @@ const SliderTrack = styled(AriaSliderTrack)`
     display: block;
     position: absolute;
     background: var(--border-color);
+
+    background: ${({ theme }) => theme.colors.input.bg};
+    box-shadow: ${({ theme }) => theme.shadows.bottomHighlight};
+    border-radius: ${({ theme }) => theme.space[4]};
   }
 
   &[data-orientation="horizontal"] {
-    height: 30px;
+    height: ${SLIDER_TRACK_HEIGHT}px;
     width: 100%;
 
     &:before {
-      height: 3px;
+      height: ${SLIDER_TRACK_HEIGHT}px;
       width: 100%;
-      top: 50%;
       transform: translateY(-50%);
     }
   }
@@ -96,30 +111,39 @@ const SliderTrack = styled(AriaSliderTrack)`
     height: 100%;
 
     &:before {
-      width: 3px;
+      width: 14px;
       height: 100%;
-      left: 50%;
       transform: translateX(-50%);
     }
   }
-
-  background: ${({ theme }) => theme.colors.background};
 `;
 
 type Props = typeof AriaSlider & {
   label?: string;
+  showOutput?: boolean;
 };
 
-const Slider = ({ label, ...props }: Props) => {
+const Slider = ({ label, showOutput, ...props }: Props) => {
   return (
     <SliderBase {...props}>
       {label && <Label>{label}</Label>}
-      <SliderOutput />
+      {showOutput && <SliderOutput />}
       <SliderTrack>
-        <SliderThumb />
+        {({ state }) => (
+          <>
+            <SliderProgress
+              style={{ width: state.getThumbPercent(0) * 100 + "%" }}
+            />
+            <SliderThumb />
+          </>
+        )}
       </SliderTrack>
     </SliderBase>
   );
+};
+
+Slider.defaultProps = {
+  showOutput: false,
 };
 
 export default Slider;
