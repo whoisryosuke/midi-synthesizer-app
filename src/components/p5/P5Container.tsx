@@ -10,7 +10,7 @@ const P5ContainerTitle = styled("div")`
   background: ${({ theme }) => theme.colors.input.bg.default};
   text-align: center;
 
-  & h5 {
+  & h6 {
     padding: ${({ theme }) => theme.space[3]};
     margin: 0;
   }
@@ -45,7 +45,7 @@ export const P5Container = ({
   return (
     <P5ContainerBase {...props}>
       <P5ContainerTitle>
-        <Heading as="h5">{title}</Heading>
+        <Heading as="h6">{title}</Heading>
       </P5ContainerTitle>
       {children}
     </P5ContainerBase>
