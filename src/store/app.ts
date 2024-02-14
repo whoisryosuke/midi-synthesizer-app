@@ -20,6 +20,8 @@ interface AppState {
   setMute: (mute: boolean) => void;
   synthType: SynthTypes;
   setSynthType: (synthType: SynthTypes) => void;
+  waveform: React.RefObject<Tone.Waveform> | null;
+  setWaveform: (fft: React.RefObject<Tone.Waveform>) => void;
   fft: React.RefObject<Tone.FFT> | null;
   setFft: (fft: React.RefObject<Tone.FFT>) => void;
 }
@@ -39,10 +41,12 @@ export const useAppStore = create<AppState>()(
 
     // Sound
     mute: false,
-    setMute: (mute) => set((state) => ({ mute })),
+    setMute: (mute) => set(() => ({ mute })),
     synthType: "poly",
-    setSynthType: (synthType) => set((state) => ({ synthType })),
+    setSynthType: (synthType) => set(() => ({ synthType })),
+    waveform: null,
+    setWaveform: (waveform) => set(() => ({ waveform })),
     fft: null,
-    setFft: (fft) => set((state) => ({ fft })),
+    setFft: (fft) => set(() => ({ fft })),
   }))
 );

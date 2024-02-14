@@ -8,6 +8,7 @@ import Stack from "../../Stack/Stack";
 import Heading from "../../primitives/Heading";
 import Switch from "../../primitives/Switch";
 import P5FFTLineShapeViz from "../../p5/P5FFTLineShapeViz";
+import P5WaveformLineShapeViz from "../../p5/P5WaveformLineShapeViz";
 
 type Props = {};
 
@@ -26,7 +27,7 @@ const TestPanel = (props: Props) => {
       <Heading as="h3">MIDI Settings</Heading>
       <Button>Pump up volume</Button>
       <Slider defaultValue={60}></Slider>
-      <P5FFTLineShapeViz width={300} height={200} />
+      <P5WaveformLineShapeViz width={300} height={200} />
       <Stack>
         <ToggleButton label="MIDI" />
         <ToggleButton label="Crossfade" active />

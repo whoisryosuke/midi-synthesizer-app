@@ -13,11 +13,12 @@ type Props = {
 const BaseSynth = ({ type, config = {} }: Props) => {
   const notesPlaying = useRef<UserInputMap>({});
   const { input } = useInputStore();
-  const { mute, setMute, setFft } = useAppStore();
+  const { mute, setMute, setWaveform, setFft } = useAppStore();
   const loaded = useRef(false);
 
   // Create a synth and connect it to the main output (your speakers)
   const synth = useRef<Tone.PolySynth | Tone.Sampler | null>(null);
+  const waveform = useRef<Tone.Waveform | null>(null);
   const fft = useRef<Tone.FFT | null>(null);
   const inputKeys = Object.keys(input) as UserInputKeys[];
 
@@ -55,7 +56,12 @@ const BaseSynth = ({ type, config = {} }: Props) => {
   useEffect(() => {
     if (!synth.current) {
       console.log("creating synth");
+      // Initialize plugins
       fft.current = new Tone.FFT();
+      waveform.current = new Tone.Waveform();
+
+      // Initialize synth with user's config
+      // and "chain" in the plugins
       synth.current = new Tone[type]({
         ...config,
         onload: () => {
@@ -63,11 +69,17 @@ const BaseSynth = ({ type, config = {} }: Props) => {
           console.log("loaded now!");
         },
       })
+        .chain(waveform.current, Tone.Destination)
         .chain(fft.current, Tone.Destination)
         .toDestination();
 
+      setWaveform(waveform);
       setFft(fft);
     }
+
+    return () => {
+      if (synth.current) synth.current.releaseAll();
+    };
   }, []);
 
   // Mute audio when requested
