@@ -7,6 +7,7 @@ import ToggleButton from "../../primitives/ToggleButton";
 import Stack from "../../Stack/Stack";
 import Heading from "../../primitives/Heading";
 import Switch from "../../primitives/Switch";
+import P5FFTLineShapeViz from "../../p5/P5FFTLineShapeViz";
 
 type Props = {};
 
@@ -17,7 +18,7 @@ const TestPanel = (props: Props) => {
         position: "absolute",
         top: 0,
         right: 0,
-        width: "350px",
+        width: "500px",
         height: "100vh",
         padding: "30px",
       }}
@@ -25,6 +26,7 @@ const TestPanel = (props: Props) => {
       <Heading as="h3">MIDI Settings</Heading>
       <Button>Pump up volume</Button>
       <Slider defaultValue={60}></Slider>
+      <P5FFTLineShapeViz width={300} height={200} />
       <Stack>
         <ToggleButton label="MIDI" />
         <ToggleButton label="Crossfade" active />
