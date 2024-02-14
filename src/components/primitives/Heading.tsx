@@ -11,7 +11,7 @@ const Heading = styled("h1")<Props>`
 
   font-family: "Inter";
   font-style: normal;
-  font-weight: ${({ theme }) => theme.fontWeights.medium};
+  font-weight: 200;
   font-size: ${({ as }) => TEXT_STYLES[as]};
   line-height: 1.5rem;
   letter-spacing: 8px;

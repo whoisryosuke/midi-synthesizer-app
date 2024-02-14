@@ -1,12 +1,12 @@
 import React from "react";
 import Button from "../../primitives/Button";
 import Slider from "../../primitives/Slider";
-import { Switch } from "react-aria-components";
 import PanelContainer from "../../primitives/PanelContainer";
 import Knob from "../../primitives/Knob/Knob";
 import ToggleButton from "../../primitives/ToggleButton";
 import Stack from "../../Stack/Stack";
 import Heading from "../../primitives/Heading";
+import Switch from "../../primitives/Switch";
 
 type Props = {};
 
@@ -31,7 +31,12 @@ const TestPanel = (props: Props) => {
         <ToggleButton label="Mic" />
         <ToggleButton label="Effects" />
       </Stack>
-      <Switch>Test switch</Switch>
+      <Switch>Enable audio mixing</Switch>
+      <Stack style={{ marginTop: "20px" }}>
+        <Switch vertical>Channel #1</Switch>
+        <Switch vertical>Channel #2</Switch>
+        <Switch vertical>Channel #3</Switch>
+      </Stack>
       <Stack style={{ display: "flex", flexDirection: "row" }}>
         <Knob label="Volume" defaultValue={60} />
         <Knob label="Mix #1" defaultValue={60} showOutput />

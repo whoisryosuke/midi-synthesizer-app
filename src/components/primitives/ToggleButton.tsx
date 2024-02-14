@@ -20,6 +20,7 @@ const ToggleButtonBase = styled(AriaButton)<StyleProps>`
   padding: ${({ theme }) => theme.space[4]} ${({ theme }) => theme.space[5]};
   text-decoration: none;
   text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.5);
+  text-transform: uppercase;
 
   border: 2.5px solid ${({ theme }) => theme.colors.button.border.default.color};
   background: ${({ theme }) => theme.colors.button.bg.pressed};
