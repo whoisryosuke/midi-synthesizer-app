@@ -56,7 +56,9 @@ const P5FFTLineShapeViz = ({ width, height }: Props) => {
         const normalized = Math.max(binMapped, 0);
         // p.vertex(i * 12, binMapped - 500);
         const halfwayDownScreen = p.height / 2;
-        const sin = p.sin(i / 5 + p.millis() / 1000) * 5;
+        const amplitude = 2; // wave height
+        const speed = 5; // more is slower
+        const sin = p.sin(i / speed + p.millis() / 1000) * amplitude;
         p.vertex(i * 12, sin + halfwayDownScreen - normalized);
       }
       // Since the stroke is 2px, we add a gap of that minimally so stroke doesn't show on bottom
