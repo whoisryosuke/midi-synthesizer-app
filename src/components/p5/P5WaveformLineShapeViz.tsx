@@ -53,7 +53,7 @@ const P5WaveformLineShapeViz = ({ width, height, ...props }: Props) => {
       p.stroke(BASE_COLORS["cyan-4"]);
       const width = Math.min(levels.length, p.width + 10);
       for (let i = 0; i < width; i++) {
-        const normalized = levels[i] * 10;
+        const normalized = levels[i] * 100;
         // p.vertex(i * 12, binMapped - 500);
         const halfwayDownScreen = p.height / 2;
         const amplitude = 2; // wave height

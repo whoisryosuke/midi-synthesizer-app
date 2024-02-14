@@ -9,6 +9,7 @@ import Page from "./components/Page/Page";
 import TestPanel from "./components/interface/TestPanel/TestPanel";
 import P5FFTLineViz from "./components/p5/P5FFTLineViz";
 import P5FFTLineShapeViz from "./components/p5/P5FFTLineShapeViz";
+import MusicSwitcher from "./features/Music/MusicSwitcher";
 
 export default function App() {
   return (
@@ -19,7 +20,7 @@ export default function App() {
         {/* <P5Particles /> */}
         {/* <P5FFTDebug /> */}
         <P5FFTLineViz />
-        <Music />
+        <MusicSwitcher />
         <Keyboard />
         <KeyboardUI />
         <TestPanel />

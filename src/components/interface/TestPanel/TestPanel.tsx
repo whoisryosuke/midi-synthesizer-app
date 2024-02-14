@@ -9,10 +9,22 @@ import Heading from "../../primitives/Heading";
 import Switch from "../../primitives/Switch";
 import P5FFTLineShapeViz from "../../p5/P5FFTLineShapeViz";
 import P5WaveformLineShapeViz from "../../p5/P5WaveformLineShapeViz";
+import { useAppStore } from "../../../store/app";
+import {
+  SYNTH_NAMES,
+  SYNTH_TYPES,
+  SynthTypes,
+} from "../../../features/Music/Music";
 
 type Props = {};
 
 const TestPanel = (props: Props) => {
+  const { synthType, setSynthType } = useAppStore();
+
+  const handleSynthChange = (e: React.FormEvent<HTMLSelectElement>) => {
+    setSynthType(e.currentTarget.value as SynthTypes);
+  };
+
   return (
     <PanelContainer
       style={{
@@ -26,6 +38,13 @@ const TestPanel = (props: Props) => {
     >
       <Stack vertical>
         <Heading as="h3">MIDI Settings</Heading>
+        <select value={synthType} onChange={handleSynthChange}>
+          {SYNTH_TYPES.map((synth) => (
+            <option key={synth} value={synth}>
+              {SYNTH_NAMES[synth]}
+            </option>
+          ))}
+        </select>
         <Stack>
           <Button>Pump up volume</Button>
         </Stack>

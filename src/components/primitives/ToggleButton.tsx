@@ -47,7 +47,7 @@ const ToggleButtonBase = styled(AriaButton)<StyleProps>`
   }
 `;
 
-const ToggleButtonContainer = styled("group")`
+const ToggleButtonContainer = styled("div")`
   text-align: center;
 `;
 

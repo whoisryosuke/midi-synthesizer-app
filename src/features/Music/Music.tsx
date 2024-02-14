@@ -5,8 +5,8 @@ const SYNTHS = {
   poly: PolySynth,
   piano: PianoSampler,
 };
-export const SYNTH_TYPES = Object.keys(SYNTHS);
 export type SynthTypes = keyof typeof SYNTHS;
+export const SYNTH_TYPES = Object.keys(SYNTHS) as SynthTypes[];
 export const SYNTH_NAMES: Record<SynthTypes, string> = {
   poly: "PolySynth",
   piano: "PianoSampler",

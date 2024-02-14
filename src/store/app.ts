@@ -42,7 +42,7 @@ export const useAppStore = create<AppState>()(
     // Sound
     mute: false,
     setMute: (mute) => set(() => ({ mute })),
-    synthType: "poly",
+    synthType: "piano",
     setSynthType: (synthType) => set(() => ({ synthType })),
     waveform: null,
     setWaveform: (waveform) => set(() => ({ waveform })),
