@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import p5 from "p5";
 import { useAppStore } from "../../store/app";
 import { BASE_COLORS } from "../../themes/colors/base";
+import createGridLines from "./shared/createGridLines";
 
 type Props = {};
 
@@ -19,12 +20,15 @@ const P5FFTLineViz = (props: Props) => {
     };
     p.draw = () => {
       // console.log('drawing!!')
-      p.background(0); // Set the background to black
+      p.background(p.color(BASE_COLORS["gray-9"])); // Set the background to black
 
       const { fft } = useAppStore.getState();
       if (!fft?.current) return;
 
       const levels = fft.current.getValue();
+
+      // BG Lines
+      createGridLines(p, 30);
 
       p.beginShape();
       //   p.fill(BASE_COLORS["cyan-4"]);

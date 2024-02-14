@@ -3,6 +3,7 @@ import p5 from "p5";
 import { useAppStore } from "../../store/app";
 import { BASE_COLORS } from "../../themes/colors/base";
 import { P5Container } from "./P5Container";
+import createGridLines from "./shared/createGridLines";
 
 type Props = {
   width: CSSProperties["width"];
@@ -23,13 +24,17 @@ const P5FFTLineShapeViz = ({ width, height }: Props) => {
     };
     p.draw = () => {
       // console.log('drawing!!')
-      p.background(0); // Set the background to black
+      p.background(p.color(BASE_COLORS["gray-9"])); // Set the background to black
 
       const { fft } = useAppStore.getState();
       if (!fft?.current) return;
 
       const levels = fft.current.getValue();
 
+      // BG Lines
+      createGridLines(p, 15);
+
+      // Setup the gradient using the Canvas ref
       const gradient = p.drawingContext.createLinearGradient(
         p.width / 2,
         0,
@@ -39,12 +44,11 @@ const P5FFTLineShapeViz = ({ width, height }: Props) => {
       gradient.addColorStop(0, p.color(BASE_COLORS["cyan-4"]));
       gradient.addColorStop(1, p.color(BASE_COLORS["gray-9"]));
 
+      // Apply gradient to the canvas fill
       p.drawingContext.fillStyle = gradient;
 
-      // Line
+      // Line mesh thing
       p.beginShape();
-      //   p.fill(BASE_COLORS["cyan-4"]);
-      // p.fill();
       p.strokeWeight(2);
       p.stroke(BASE_COLORS["cyan-4"]);
       for (let i = 0; i < levels.length; i++) {
