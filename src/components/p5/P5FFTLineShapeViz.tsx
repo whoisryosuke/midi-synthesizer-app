@@ -10,7 +10,7 @@ type Props = {
   height: CSSProperties["height"];
 };
 
-const P5FFTLineShapeViz = ({ width, height }: Props) => {
+const P5FFTLineShapeViz = ({ width, height, ...props }: Props) => {
   const p5ref = useRef<p5 | null>(null);
   const divRef = useRef<HTMLDivElement | null>(null);
 
@@ -74,7 +74,11 @@ const P5FFTLineShapeViz = ({ width, height }: Props) => {
       p5ref.current = new p5(Sketch, divRef.current);
   }, []);
 
-  return <P5Container ref={divRef}></P5Container>;
+  return (
+    <P5Container title="FFT" width={width} height={height} {...props}>
+      <div ref={divRef}></div>
+    </P5Container>
+  );
 };
 
 export default P5FFTLineShapeViz;

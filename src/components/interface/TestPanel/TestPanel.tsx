@@ -19,30 +19,37 @@ const TestPanel = (props: Props) => {
         position: "absolute",
         top: 0,
         right: 0,
-        width: "500px",
+        width: "50%",
         height: "100vh",
         padding: "30px",
       }}
     >
-      <Heading as="h3">MIDI Settings</Heading>
-      <Button>Pump up volume</Button>
-      <Slider defaultValue={60}></Slider>
-      <P5WaveformLineShapeViz width={300} height={200} />
-      <Stack>
-        <ToggleButton label="MIDI" />
-        <ToggleButton label="Crossfade" active />
-        <ToggleButton label="Mic" />
-        <ToggleButton label="Effects" />
-      </Stack>
-      <Switch>Enable audio mixing</Switch>
-      <Stack style={{ marginTop: "20px" }}>
-        <Switch vertical>Channel #1</Switch>
-        <Switch vertical>Channel #2</Switch>
-        <Switch vertical>Channel #3</Switch>
-      </Stack>
-      <Stack style={{ display: "flex", flexDirection: "row" }}>
-        <Knob label="Volume" defaultValue={60} />
-        <Knob label="Mix #1" defaultValue={60} showOutput />
+      <Stack vertical>
+        <Heading as="h3">MIDI Settings</Heading>
+        <Stack>
+          <Button>Pump up volume</Button>
+        </Stack>
+        <Slider defaultValue={60}></Slider>
+        <Stack>
+          <P5WaveformLineShapeViz width={300} height={200} />
+          <P5FFTLineShapeViz width={300} height={200} />
+        </Stack>
+        <Stack>
+          <ToggleButton label="MIDI" />
+          <ToggleButton label="Crossfade" active />
+          <ToggleButton label="Mic" />
+          <ToggleButton label="Effects" />
+        </Stack>
+        <Switch>Enable audio mixing</Switch>
+        <Stack style={{ marginTop: "20px" }}>
+          <Switch vertical>Channel #1</Switch>
+          <Switch vertical>Channel #2</Switch>
+          <Switch vertical>Channel #3</Switch>
+        </Stack>
+        <Stack style={{ display: "flex", flexDirection: "row" }}>
+          <Knob label="Volume" defaultValue={60} />
+          <Knob label="Mix #1" defaultValue={60} showOutput />
+        </Stack>
       </Stack>
     </PanelContainer>
   );

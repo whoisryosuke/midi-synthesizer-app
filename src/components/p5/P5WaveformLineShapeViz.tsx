@@ -10,7 +10,7 @@ type Props = {
   height: CSSProperties["height"];
 };
 
-const P5WaveformLineShapeViz = ({ width, height }: Props) => {
+const P5WaveformLineShapeViz = ({ width, height, ...props }: Props) => {
   const p5ref = useRef<p5 | null>(null);
   const divRef = useRef<HTMLDivElement | null>(null);
 
@@ -75,7 +75,7 @@ const P5WaveformLineShapeViz = ({ width, height }: Props) => {
   }, []);
 
   return (
-    <P5Container title="Waveform" width={width} height={height}>
+    <P5Container title="Waveform" width={width} height={height} {...props}>
       <div ref={divRef}></div>
     </P5Container>
   );
