@@ -15,14 +15,20 @@ import {
   SYNTH_TYPES,
   SynthTypes,
 } from "../../../features/Music/Music";
+import { THEME_COLORS, ThemeColors } from "../../../themes/colors/base";
+import P5WaveformBarGraph from "../../p5/P5WaveformBarGraph";
 
 type Props = {};
 
 const TestPanel = (props: Props) => {
-  const { synthType, setSynthType } = useAppStore();
+  const { synthType, setSynthType, colorMode, setColorMode } = useAppStore();
 
   const handleSynthChange = (e: React.FormEvent<HTMLSelectElement>) => {
     setSynthType(e.currentTarget.value as SynthTypes);
+  };
+
+  const handleColorMode = (e: React.FormEvent<HTMLSelectElement>) => {
+    setColorMode(e.currentTarget.value as ThemeColors);
   };
 
   return (
@@ -45,6 +51,13 @@ const TestPanel = (props: Props) => {
             </option>
           ))}
         </select>
+        <select value={colorMode} onChange={handleColorMode}>
+          {THEME_COLORS.map((color) => (
+            <option key={color} value={color}>
+              {color}
+            </option>
+          ))}
+        </select>
         <Stack>
           <Button>Pump up volume</Button>
         </Stack>
@@ -52,6 +65,7 @@ const TestPanel = (props: Props) => {
         <Stack>
           <P5WaveformLineShapeViz width={300} height={200} />
           <P5FFTLineShapeViz width={300} height={200} />
+          <P5WaveformBarGraph width={300} height={200} />
         </Stack>
         <Stack>
           <ToggleButton label="MIDI" />

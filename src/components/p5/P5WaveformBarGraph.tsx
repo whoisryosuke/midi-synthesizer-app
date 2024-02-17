@@ -10,7 +10,7 @@ type Props = {
   height: CSSProperties["height"];
 };
 
-const P5WaveformLineShapeViz = ({ width, height, ...props }: Props) => {
+const P5WaveformBarGraph = ({ width, height, ...props }: Props) => {
   const p5ref = useRef<p5 | null>(null);
   const divRef = useRef<HTMLDivElement | null>(null);
 
@@ -48,24 +48,35 @@ const P5WaveformLineShapeViz = ({ width, height, ...props }: Props) => {
       p.drawingContext.fillStyle = gradient;
 
       // Line mesh thing
-      p.beginShape();
       p.strokeWeight(2);
       p.stroke(BASE_COLORS[`${colorMode}-4`]);
+      const GAP = 0;
+      const BAR_WIDTH = 5;
+      const BAR_SPACE = BAR_WIDTH + GAP;
       const width = Math.min(levels.length, p.width + 10);
       for (let i = 0; i < width; i++) {
-        const normalized = levels[i] * 100;
-        // p.vertex(i * 12, binMapped - 500);
+        // The top bar
+        // We basically draw a rect (the bar)
+        // starting from the bottom left corner
+        p.beginShape();
+        const normalized = p.map(levels[i] * 100, -1, 1, 0, 1);
         const halfwayDownScreen = p.height / 2;
-        const amplitude = 2; // wave height
-        const speed = 5; // more is slower
-        const sin = p.sin(i / speed + p.millis() / 1000) * amplitude;
-        p.vertex(i, halfwayDownScreen - normalized);
+        const startX = i * BAR_SPACE;
+        p.vertex(startX, halfwayDownScreen);
+        p.vertex(startX, halfwayDownScreen - normalized);
+        p.vertex(startX + BAR_SPACE, halfwayDownScreen - normalized);
+        p.vertex(startX + BAR_SPACE, halfwayDownScreen);
+        p.endShape();
+
+        // The bottom bar
+        // Basically same thing but we just invert the waveform value (instead of subtract - we add)
+        p.beginShape();
+        p.vertex(startX, halfwayDownScreen);
+        p.vertex(startX, halfwayDownScreen + normalized); // inverted here
+        p.vertex(startX + BAR_SPACE, halfwayDownScreen + normalized); // inverted here
+        p.vertex(startX + BAR_SPACE, halfwayDownScreen);
+        p.endShape();
       }
-      // Since the stroke is 2px, we add a gap of that minimally so stroke doesn't show on bottom
-      const GAP = 5;
-      p.vertex(p.width, p.height + GAP);
-      p.vertex(0, p.height + GAP);
-      p.endShape();
     };
   };
 
@@ -81,4 +92,4 @@ const P5WaveformLineShapeViz = ({ width, height, ...props }: Props) => {
   );
 };
 
-export default P5WaveformLineShapeViz;
+export default P5WaveformBarGraph;

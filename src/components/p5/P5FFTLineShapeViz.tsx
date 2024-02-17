@@ -26,7 +26,7 @@ const P5FFTLineShapeViz = ({ width, height, ...props }: Props) => {
       // console.log('drawing!!')
       p.background(p.color(BASE_COLORS["gray-9"])); // Set the background to black
 
-      const { fft } = useAppStore.getState();
+      const { fft, colorMode } = useAppStore.getState();
       if (!fft?.current) return;
 
       const levels = fft.current.getValue();
@@ -41,7 +41,7 @@ const P5FFTLineShapeViz = ({ width, height, ...props }: Props) => {
         p.width / 2,
         p.height
       );
-      gradient.addColorStop(0, p.color(BASE_COLORS["cyan-4"]));
+      gradient.addColorStop(0, p.color(BASE_COLORS[`${colorMode}-4`]));
       gradient.addColorStop(1, p.color(BASE_COLORS["gray-9"]));
 
       // Apply gradient to the canvas fill
@@ -50,7 +50,7 @@ const P5FFTLineShapeViz = ({ width, height, ...props }: Props) => {
       // Line mesh thing
       p.beginShape();
       p.strokeWeight(2);
-      p.stroke(BASE_COLORS["cyan-4"]);
+      p.stroke(BASE_COLORS[`${colorMode}-4`]);
       for (let i = 0; i < levels.length; i++) {
         let binMapped = p.map(levels[i], -60, 50, 0, p.height);
         const normalized = Math.max(binMapped, 0);

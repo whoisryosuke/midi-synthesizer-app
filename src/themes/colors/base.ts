@@ -1,4 +1,37 @@
-export const BASE_COLORS = {
+export const THEME_COLORS = [
+  "red",
+  "pink",
+  "grape",
+  "violet",
+  "indigo",
+  "blue",
+  "cyan",
+  "teal",
+  "green",
+  "lime",
+  "yellow",
+  "orange",
+];
+
+export type ThemeColors =
+  | "red"
+  | "pink"
+  | "grape"
+  | "violet"
+  | "indigo"
+  | "blue"
+  | "cyan"
+  | "teal"
+  | "green"
+  | "lime"
+  | "yellow"
+  | "orange";
+
+export type AllColors = ThemeColors | "gray";
+
+export type ThemeRamp = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+
+export const BASE_COLORS: Record<`${AllColors}-${ThemeRamp}`, string> = {
   "gray-0": "#F8F9FA",
   "gray-1": "#F1F3F5",
   "gray-2": "#E9ECEF",
@@ -49,6 +82,7 @@ export const BASE_COLORS = {
   "violet-7": "#7048E8",
   "violet-8": "#6741D9",
   "violet-9": "#5F3DC4",
+  "indigo-0": "#edf2ff",
   "indigo-1": "#DBE4FF",
   "indigo-2": "#BAC8FF",
   "indigo-3": "#91A7FF",

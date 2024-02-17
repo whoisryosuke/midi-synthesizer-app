@@ -35,8 +35,7 @@ const ToggleButtonBase = styled(AriaButton)<StyleProps>`
     active &&
     `
     border: 2.5px solid  ${theme.colors.primary.default};
-    background: ${theme.gradients.primary};
-    background: linear-gradient(180deg, #1098AD 42.5%, #0C8599 100%);
+    background: ${theme.gradients.button.active};
     box-shadow: 0px -2px 8.4px rgba(0, 0, 0, 0.5), 0px 0px 16.4px rgba(153, 233, 242, 0.5), inset 0px 3px 2px rgba(255, 255, 255, 0.25), inset 0px -8px 3px rgba(0, 0, 0, 0.1);
     `}
 

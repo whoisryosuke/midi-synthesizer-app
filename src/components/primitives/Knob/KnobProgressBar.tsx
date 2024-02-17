@@ -78,6 +78,7 @@ const KnobProgressBar = styled(KnobProgressBarBase)<Props>`
   left: 0;
 
   & .knob-progress-bar-path {
+    stroke: ${({ theme }) => theme.colors.primary.default};
     stroke-dashoffset: ${({ percent }) => 100 - percent};
   }
 `;

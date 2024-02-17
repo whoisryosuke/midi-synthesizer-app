@@ -1,6 +1,7 @@
 import { ThemeProvider as StyledThemeProvider } from "styled-components";
 import { Theme, base, themes } from "../../themes";
 import { useAppStore } from "../../store/app";
+import generateDarkTheme from "../../themes/colors/dark";
 
 /**
  * "Deep merges" two objects only 1 level deep
@@ -41,14 +42,16 @@ export function ThemeProvider({
   children,
   theme: themeOverrides,
 }: React.PropsWithChildren<ThemeProviderProps>) {
-  const { theme } = useAppStore();
+  const { theme, colorMode } = useAppStore();
 
-  // const colorMode = theme === "light" ? themes.light : themes.dark;
   // @TODO: Put light mode back once colors are consolidated
-  const colorMode = theme === "light" ? themes.dark : themes.dark;
+  const themeStyles =
+    theme === "light"
+      ? generateDarkTheme(colorMode)
+      : generateDarkTheme(colorMode);
   const baseTheme = {
     ...base,
-    ...colorMode,
+    ...themeStyles,
   };
   const currentTheme = merge(baseTheme, themeOverrides);
 
