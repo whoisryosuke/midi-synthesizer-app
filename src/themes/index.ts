@@ -12,13 +12,13 @@ const themes = {
 
 const defaultTheme = {
   ...base,
-  ...dark,
-}
+  ...dark("cyan"),
+};
 
 export type Theme = typeof defaultTheme;
 export type ThemeOptions = keyof typeof themes;
 export type ThemeProp = {
   theme: Theme;
-}
+};
 
 export { themes, base, defaultTheme };

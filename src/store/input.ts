@@ -1,6 +1,8 @@
 import { create } from "zustand";
 
-export type BaseNote = "C" | "D" | "E" | "F" | "G" | "A" | "B";
+export type WhiteNotes = "C" | "D" | "E" | "F" | "G" | "A" | "B";
+export type BlackNotes = "C#" | "D#" | "F#" | "G#" | "A#";
+export type BaseNote = WhiteNotes | BlackNotes;
 export type Octaves = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "#";
 export type Note = `${BaseNote}${Octaves}`;
 
@@ -56,6 +58,53 @@ const DEFAULT_USER_MAP: UserInputMap = {
   B5: false,
   B6: false,
   B7: false,
+  "C#": false,
+  "D#": false,
+  "F#": false,
+  "G#": false,
+  "A#": false,
+  "C#1": false,
+  "C#2": false,
+  "C#3": false,
+  "C#4": false,
+  "C#5": false,
+  "C#6": false,
+  "C#7": false,
+  "C##": false,
+  "D#1": false,
+  "D#2": false,
+  "D#3": false,
+  "D#4": false,
+  "D#5": false,
+  "D#6": false,
+  "D#7": false,
+  "D##": false,
+  "E#": false,
+  "F#1": false,
+  "F#2": false,
+  "F#3": false,
+  "F#4": false,
+  "F#5": false,
+  "F#6": false,
+  "F#7": false,
+  "F##": false,
+  "G#1": false,
+  "G#2": false,
+  "G#3": false,
+  "G#4": false,
+  "G#5": false,
+  "G#6": false,
+  "G#7": false,
+  "G##": false,
+  "A#1": false,
+  "A#2": false,
+  "A#3": false,
+  "A#4": false,
+  "A#5": false,
+  "A#6": false,
+  "A#7": false,
+  "A##": false,
+  "B#": false,
 };
 
 export type UserInputKeys = keyof UserInputMap;

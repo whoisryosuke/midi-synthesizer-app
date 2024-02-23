@@ -1,17 +1,18 @@
-import { BaseNote, Note, Octaves } from "../store/input";
-import { NOTE_LETTERS, OCTAVES } from "./constants";
+import { WhiteNotes, Note, Octaves } from "../store/input";
+import { NOTE_LETTERS, NOTE_LETTERS_WITH_BLACK, OCTAVES } from "./constants";
 
-export function generateKeysByOctave() {
+export function generateKeysByOctave(blackKey = false) {
   const octaves = new Array(OCTAVES).fill(0);
+  const sourceNote = blackKey ? NOTE_LETTERS_WITH_BLACK : NOTE_LETTERS;
   const notes = octaves.map(
-    (_, octave) => NOTE_LETTERS.map((note) => `${note}${octave + 1}`) as Note[]
+    (_, octave) => sourceNote.map((note) => `${note}${octave + 1}`) as Note[]
   );
   return notes;
 }
 
 export function generateKeysByOctaveInOrder() {
   const octaves = new Array(OCTAVES).fill(0);
-  const notes: Record<BaseNote, Note[]> = {
+  const notes: Record<WhiteNotes, Note[]> = {
     C: [],
     D: [],
     E: [],
