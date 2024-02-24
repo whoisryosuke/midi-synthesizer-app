@@ -4,20 +4,16 @@ import styled from "styled-components";
 import * as Tone from "tone";
 import { PIANO_ROLL_KEY_WIDTH } from "./piano-roll-constants";
 
-type PianoRollPlaybackLineContainerProps = {
-  left: number;
-};
-
-const PianoRollPlaybackLineContainer = styled(
-  "div"
-)<PianoRollPlaybackLineContainerProps>`
+const PianoRollPlaybackLineContainer = styled("div")`
   width: 13px;
   height: 100%;
 
   position: absolute;
   z-index: 420;
 
-  left: ${({ left }) => left - 3 + PIANO_ROLL_KEY_WIDTH}px;
+  transform: translateX(var(--left, ${PIANO_ROLL_KEY_WIDTH - 3}px));
+
+  transition: transform 50ms linear;
 
   & svg {
     position: absolute;
@@ -70,14 +66,26 @@ type Props = {
 };
 
 const PianoRollPlaybackLine = ({ playing, startTime, timeGap }: Props) => {
-  const [currentTime, setCurrentTime] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const currentTime = useRef(0);
   const animationRef = useRef<ReturnType<typeof requestAnimationFrame> | null>(
     null
   );
 
   const tickClock = () => {
-    setCurrentTime(Tone.now());
-    console.log("currentTime", startTime, currentTime, currentTime - startTime);
+    currentTime.current = Tone.now();
+    console.log(
+      "currentTime",
+      startTime,
+      currentTime,
+      currentTime.current - startTime
+    );
+    if (containerRef.current) {
+      const elapsedTime = currentTime.current - startTime;
+      const scaledTime = elapsedTime * timeGap;
+      const leftPosition = scaledTime - 3 + PIANO_ROLL_KEY_WIDTH;
+      containerRef.current.style.setProperty("--left", `${leftPosition}px`);
+    }
 
     animationRef.current = requestAnimationFrame(tickClock);
   };
@@ -88,17 +96,15 @@ const PianoRollPlaybackLine = ({ playing, startTime, timeGap }: Props) => {
     }
     if (!playing && animationRef.current) {
       cancelAnimationFrame(animationRef.current);
-      setCurrentTime(startTime);
+      currentTime.current = startTime;
     }
     return () => {
       animationRef.current && cancelAnimationFrame(animationRef.current);
     };
   }, [playing]);
 
-  const elapsedTime = currentTime - startTime;
-
   return (
-    <PianoRollPlaybackLineContainer left={timeGap * elapsedTime}>
+    <PianoRollPlaybackLineContainer ref={containerRef}>
       <PianoRollPlaybackMarker className={playing && "playing"} />
       <div className={`line ${playing && "playing"}`} />
       <div className={`gradient ${playing && "playing"}`} />

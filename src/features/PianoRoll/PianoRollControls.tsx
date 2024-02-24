@@ -12,7 +12,7 @@ const PianoRollControls = (props: Props) => {
     setPlaying(!playing);
 
     // Reset the time to now
-    if (playing) {
+    if (!playing) {
       const now = Tone.now();
       setStartTime(now);
     }
