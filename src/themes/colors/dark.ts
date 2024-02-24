@@ -70,6 +70,14 @@ export const generateDarkTheme = (color: ThemeColors) => ({
       note: {
         text: BASE_COLORS["gray-9"],
       },
+      marker: {
+        background: {
+          default: BASE_COLORS["gray-5"],
+          hovered: BASE_COLORS[`${color}-5`],
+          pressed: BASE_COLORS[`${color}-8`],
+          playing: BASE_COLORS[`${color}-3`],
+        },
+      },
     },
     primary: {
       default: BASE_COLORS[`${color}-4`],
@@ -94,6 +102,13 @@ export const generateDarkTheme = (color: ThemeColors) => ({
       default: `linear-gradient(90deg, ${BASE_COLORS[`${color}-7`]} 0%, ${
         BASE_COLORS[`${color}-5`]
       } 100%)`,
+    },
+    pianoMarker: {
+      playing: `linear-gradient(
+    269.99deg,
+    #22b8cf 0%,
+    rgba(34, 184, 207, 0) 99.99%
+  )`,
     },
   },
 

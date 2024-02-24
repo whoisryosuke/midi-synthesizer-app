@@ -10,7 +10,19 @@ export type PianoRollNoteData = {
 
 export interface PianoRollState {
   // Settings
+  // The number of pixels that represent 1 second.
+  // Increase to "zoom" the timeline or vice versa.
   timeGap: number;
+
+  // Is piano roll playing?
+  playing: boolean;
+  setPlaying: (playing: boolean) => void;
+
+  // Current playback time for piano roll
+  startTime: number;
+  currentTime: number;
+  setStartTime: (startTime: number) => void;
+  setCurrentTime: (currentTime: number) => void;
 
   // Notes
   notes: Record<Note, PianoRollNoteData[] | never[]>;
@@ -21,6 +33,23 @@ export interface PianoRollState {
 export const usePianoRollStore = create<PianoRollState>()(
   devtools((set) => ({
     timeGap: 30,
+
+    playing: false,
+    setPlaying: (playing) =>
+      set(() => ({
+        playing,
+      })),
+
+    startTime: 0,
+    currentTime: 0,
+    setStartTime: (startTime) =>
+      set(() => ({
+        startTime,
+      })),
+    setCurrentTime: (currentTime) =>
+      set(() => ({
+        currentTime,
+      })),
 
     notes: {
       "C#": [],

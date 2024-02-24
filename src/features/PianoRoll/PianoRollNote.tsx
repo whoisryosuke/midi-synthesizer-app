@@ -18,7 +18,7 @@ const PianoRollNoteContainer = styled("div")<PianoRollNoteContainerProps>`
   padding: ${({ theme }) => `${theme.space[2]} ${theme.space[1]}`};
   left: ${({ timeGap, time }) => `${time * timeGap}px`};
 
-  position: relative;
+  position: absolute;
 
   background: ${({ theme }) => theme.gradients.pianoNote.default};
   border: 1.5px solid ${({ theme }) => theme.colors.button.border.default.color};

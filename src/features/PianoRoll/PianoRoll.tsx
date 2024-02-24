@@ -2,24 +2,28 @@ import React from "react";
 import { ColumnLines, RowLines } from "./GridLines";
 import DAWContainer from "./DAWContainer";
 import PianoRows from "./PianoRows";
+import PianoRollControls from "./PianoRollControls";
 
 type Props = {};
 
 const PianoRoll = (props: Props) => {
   return (
-    <DAWContainer
-      style={{
-        width: "800px",
-        height: "500px",
-        position: "relative",
-        overflow: "scroll",
-        // borderRadius: "16px",
-      }}
-    >
-      {/* <ColumnLines /> */}
-      {/* <RowLines /> */}
-      <PianoRows />
-    </DAWContainer>
+    <div>
+      <PianoRollControls />
+      <DAWContainer
+        style={{
+          width: "800px",
+          height: "500px",
+          position: "relative",
+          overflow: "scroll",
+          // borderRadius: "16px",
+        }}
+      >
+        {/* <ColumnLines /> */}
+        {/* <RowLines /> */}
+        <PianoRows />
+      </DAWContainer>
+    </div>
   );
 };
 

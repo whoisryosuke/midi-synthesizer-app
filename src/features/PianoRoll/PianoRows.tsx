@@ -4,15 +4,28 @@ import PianoKey from "./PianoKey";
 import PianoTrack from "./PianoTrack";
 import { usePianoRollStore } from "../../store/piano-roll";
 import { generateKeysByOctave } from "../../utils/music-keyboard";
+import PianoRollPlaybackLine from "./PianoRollPlaybackLine";
 
 type Props = {};
 
 const PianoRows = (props: Props) => {
-  const { timeGap, notes, addNote } = usePianoRollStore();
+  const { timeGap, notes, addNote, playing, startTime } = usePianoRollStore();
   const pianoNotes = useMemo(() => generateKeysByOctave(true), []);
 
   return (
-    <div style={{ width: "100%", display: "flex", flexDirection: "column" }}>
+    <div
+      style={{
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        position: "relative",
+      }}
+    >
+      <PianoRollPlaybackLine
+        playing={playing}
+        startTime={startTime}
+        timeGap={timeGap}
+      />
       {pianoNotes.map((octave) =>
         octave.map((note) => (
           <div style={{ display: "flex" }}>
