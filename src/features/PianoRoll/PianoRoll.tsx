@@ -3,10 +3,12 @@ import { ColumnLines, RowLines } from "./GridLines";
 import DAWContainer from "./DAWContainer";
 import PianoRows from "./PianoRows";
 import PianoRollControls from "./PianoRollControls";
+import usePianoRollPlayback from "./usePianoRollPlayback";
 
 type Props = {};
 
 const PianoRoll = (props: Props) => {
+  usePianoRollPlayback();
   return (
     <div>
       <PianoRollControls />
