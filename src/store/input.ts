@@ -112,10 +112,13 @@ export type UserInputKeys = keyof UserInputMap;
 interface InputState {
   input: UserInputMap;
   setInput: (key: UserInputKeys, input: boolean) => void;
+  setMultiInput: (keys: Partial<UserInputMap>) => void;
 }
 
 export const useInputStore = create<InputState>()((set) => ({
   input: DEFAULT_USER_MAP,
   setInput: (key, input) =>
     set((state) => ({ input: { ...state.input, [key]: input } })),
+  setMultiInput: (keys) =>
+    set((state) => ({ input: { ...state.input, ...keys } })),
 }));
