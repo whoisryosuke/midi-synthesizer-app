@@ -4,7 +4,7 @@ import {
   KEYBOARD_BLACK_KEY_WIDTH,
   KEYBOARD_WHITE_KEY_WIDTH,
 } from "../../utils/constants";
-import { Note } from "../../store/input";
+import { Note, useInputStore } from "../../store/input";
 
 // The black keys go "in between" keys,
 // so we do the width and subtract the width of the black key
@@ -39,9 +39,10 @@ const BLACK_KEY_POSITIONS: BlackKeyPosition[] = [
   },
 ];
 
-type Props = {};
+type Props = { octave: number };
 
-const KeyboardKeyBlackSet = (props: Props) => {
+const KeyboardKeyBlackSet = ({ octave }: Props) => {
+  const { input } = useInputStore();
   return (
     <div
       style={{
@@ -51,13 +52,19 @@ const KeyboardKeyBlackSet = (props: Props) => {
         width: "100%",
       }}
     >
-      {BLACK_KEY_POSITIONS.map((blackKey) => (
-        <KeyboardKeyBlack
-          key={blackKey.label}
-          label={blackKey.label}
-          style={{ left: blackKey.offset }}
-        />
-      ))}
+      {BLACK_KEY_POSITIONS.map((blackKey) => {
+        const label = `${blackKey.label}${octave}`;
+        const isPressed = input[label];
+
+        return (
+          <KeyboardKeyBlack
+            key={label}
+            label={label}
+            pressed={isPressed}
+            style={{ left: blackKey.offset }}
+          />
+        );
+      })}
     </div>
   );
 };

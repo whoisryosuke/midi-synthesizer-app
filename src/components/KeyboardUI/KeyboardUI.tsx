@@ -1,14 +1,15 @@
 import React from "react";
 import Stack from "../Stack/Stack";
 import KeyboardKeyWhite from "./KeyboardKeyWhite";
-import { generateKeysByOctaveInOrder } from "../../utils/music-keyboard";
+import { generateKeysByOctave } from "../../utils/music-keyboard";
 import KeyboardKeyBlackSet from "./KeyboardKeyBlackSet";
 
 type Props = {};
 
 const KeyboardUI = (props: Props) => {
-  const keys = generateKeysByOctaveInOrder();
-  const baseNotes = Object.keys(keys);
+  const keys = generateKeysByOctave();
+  const octaves = Object.keys(keys);
+  console.log("baseNotes", octaves);
   return (
     <div
       style={{
@@ -21,12 +22,12 @@ const KeyboardUI = (props: Props) => {
       }}
     >
       <div style={{ display: "flex" }}>
-        {baseNotes.map((baseNote) => {
+        {octaves.map((octave) => {
           return (
-            <div key={baseNote} style={{ position: "relative" }}>
-              <KeyboardKeyBlackSet />
+            <div key={octave} style={{ position: "relative" }}>
+              <KeyboardKeyBlackSet octave={Number(octave)} />
               <div style={{ display: "flex" }}>
-                {keys[baseNote].map((note) => (
+                {keys[octave].map((note) => (
                   <KeyboardKeyWhite key={note} label={note} />
                 ))}
               </div>
