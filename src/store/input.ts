@@ -3,7 +3,7 @@ import { create } from "zustand";
 export type WhiteNotes = "C" | "D" | "E" | "F" | "G" | "A" | "B";
 export type BlackNotes = "C#" | "D#" | "F#" | "G#" | "A#";
 export type BaseNote = WhiteNotes | BlackNotes;
-export type Octaves = "1" | "2" | "3" | "4" | "5" | "6" | "7" | "#";
+export type Octaves = "1" | "2" | "3" | "4" | "5" | "6" | "7";
 export type Note = `${BaseNote}${Octaves}`;
 
 export type UserInputMap = Record<Note, boolean>;

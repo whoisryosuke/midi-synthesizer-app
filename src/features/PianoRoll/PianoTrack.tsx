@@ -61,9 +61,10 @@ const PianoTrack = ({ note, notes, timeGap, addNote }: Props) => {
       clickTime
     );
 
-    addNote(note, {
+    addNote(clickTime, {
       time: clickTime,
       length: 1,
+      note: note,
     });
   };
 

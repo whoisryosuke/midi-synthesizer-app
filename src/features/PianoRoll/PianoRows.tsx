@@ -12,6 +12,8 @@ const PianoRows = (props: Props) => {
   const { timeGap, notes, addNote, playing, startTime } = usePianoRollStore();
   const pianoNotes = useMemo(() => generateKeysByOctave(true), []);
 
+  const allNotes = Object.values(notes);
+
   return (
     <div
       style={{
@@ -32,7 +34,7 @@ const PianoRows = (props: Props) => {
             <PianoKey note={note} />
             <PianoTrack
               note={note}
-              notes={notes[note]}
+              notes={allNotes.filter((noteData) => noteData.note === note)}
               timeGap={timeGap}
               addNote={addNote}
             />
