@@ -11,6 +11,7 @@ import P5FFTLineViz from "./components/p5/P5FFTLineViz";
 import P5FFTLineShapeViz from "./components/p5/P5FFTLineShapeViz";
 import MusicSwitcher from "./features/Music/MusicSwitcher";
 import PianoRoll from "./features/PianoRoll/PianoRoll";
+import RhythmGame from "./features/RhythmGame/RhythmGame";
 
 export default function App() {
   return (
@@ -21,7 +22,8 @@ export default function App() {
         {/* <P5Particles /> */}
         {/* <P5FFTDebug /> */}
         {/* <P5FFTLineViz /> */}
-        <PianoRoll />
+        {/* <PianoRoll /> */}
+        <RhythmGame />
         <MusicSwitcher />
         <Keyboard />
         <KeyboardUI />
