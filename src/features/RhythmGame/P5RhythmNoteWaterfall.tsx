@@ -113,7 +113,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       // Draw lines
       p.fill(BASE_COLORS[`gray-6`]);
       lines.forEach((line) => {
-        const y = (line - currentTime) * noteHeightBase;
+        const y = (line - currentTime) * noteHeightBase + WATERFALL_TOP_PADDING;
         p.strokeWeight(2);
         p.line(p.width - 20, p.height - y, p.width, p.height - y);
         p.strokeWeight(0);
@@ -155,16 +155,19 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
 
         // Calculate the vertical position based off notes time, current time, and the height/scale of window
         const noteTime = note.time - currentTime; // if it's 4 seconds played, and note is at 5 seconds, it looks like 1 second inside gap
-        const topLeftY =
-          p.height - WATERFALL_TOP_PADDING - noteTime * noteHeightBase;
-        // Bottom
         const height = note.duration * noteHeightBase;
+        const topLeftY =
+          p.height - WATERFALL_TOP_PADDING - noteTime * noteHeightBase - height;
 
         // Note block
         p.rect(topLeftX, topLeftY, noteWidth, height);
 
         // Label
-        p.text(note.note, topLeftX, topLeftY);
+        p.text(
+          `${note.note} ${Math.round(note.time * 100) / 100}`,
+          topLeftX,
+          topLeftY + height
+        );
       });
 
       p.strokeWeight(2);
