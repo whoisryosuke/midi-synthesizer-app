@@ -31,6 +31,7 @@ const RhythmGame = (props: Props) => {
     setPaused,
     startTime,
     setStartTime,
+    elapsedTime,
     setElapsedTime,
     midiFile,
     addMidiFile,
@@ -94,20 +95,26 @@ const RhythmGame = (props: Props) => {
   console.log(midiFile);
 
   const handlePlay = () => {
+    // Play functionality
     // Not playing yet? Reset the time to now
     if (!playing) {
       setPlaying(true);
       const now = Tone.now();
       setStartTime(now);
+      setElapsedTime(0);
     }
+
+    // Pause functionality
     // Playing and not paused? Pause it.
     if (playing && !paused) {
       setPaused(true);
       const now = Tone.now();
-      setElapsedTime(now - startTime);
+      setElapsedTime(now - startTime + elapsedTime);
+      console.log("Pausing", now, startTime, now - startTime);
     }
-
+    // Playing and paused? Unpause.
     if (playing && paused) {
+      console.log("Unpausing");
       setPaused(false);
       const now = Tone.now();
       setStartTime(now);
@@ -117,6 +124,7 @@ const RhythmGame = (props: Props) => {
   const handleStop = () => {
     setPlaying(false);
     setStartTime(0);
+    setElapsedTime(0);
   };
 
   // Show all tracks with notes beginning 4 seconds or sooner

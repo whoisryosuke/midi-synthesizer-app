@@ -6,7 +6,7 @@ import { P5Container } from "../../components/p5/P5Container";
 import { GameState, RhythmNote } from "./types";
 import { useRhythmGameStore } from "../../store/rhythm-game";
 import * as Tone from "tone";
-import { WATERFALL_TIME_GAP } from "./constants";
+import { INVISIBLE_GAP, WATERFALL_TIME_GAP } from "./constants";
 import { BaseNote } from "../../store/input";
 
 const PIANO_KEY_POSITION_MAP: Record<BaseNote, number> = {
@@ -103,12 +103,12 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
 
       // Grab the notes and display them
       const allNotes = midiFile.tracks[currentTrack].notes;
-      const maxTime = currentTime + WATERFALL_TIME_GAP;
+      const maxTime = currentTime + WATERFALL_TIME_GAP + INVISIBLE_GAP;
       // Filter notes by only visible
       const visibleNotes = allNotes.filter((note) => {
         // Check if note is within region
         const start = note.time;
-        // const end = note.time + note.duration;
+        const end = note.time + note.duration;
 
         const isWithin = start >= currentTime;
         const isBeforeEnd = start <= maxTime;
