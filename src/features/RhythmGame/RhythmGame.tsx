@@ -123,6 +123,7 @@ const RhythmGame = (props: Props) => {
 
   const handleStop = () => {
     setPlaying(false);
+    setPaused(false);
     setStartTime(0);
     setElapsedTime(0);
   };

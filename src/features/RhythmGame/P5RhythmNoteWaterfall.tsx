@@ -102,8 +102,8 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       // Draw lines
       lines.forEach((line) => {
         const y = (line - currentTime) * noteHeightBase;
-        p.line(p.width - 20, y, p.width, y);
-        p.text(line, p.width - 20, y);
+        p.line(p.width - 20, p.height - y, p.width, p.height - y);
+        p.text(line, p.width - 20, p.height - y);
       });
 
       // Grab the notes and display them
@@ -116,7 +116,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         const end = note.time + note.duration;
 
         const isWithin = end >= currentTime - 1; // We add a buffer past canvas
-        const isBeforeEnd = start <= maxTime;
+        const isBeforeEnd = start <= maxTime + 3;
 
         return isWithin && isBeforeEnd;
       });
@@ -135,7 +135,8 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         const topLeftX = (p.width / 7) * PIANO_KEY_POSITION_MAP[noteType];
         // Calculate the vertical position based off notes time, current time, and the height/scale of window
         const noteTime = note.time - currentTime; // if it's 4 seconds played, and note is at 5 seconds, it looks like 1 second inside gap
-        const topLeftY = WATERFALL_TOP_PADDING + noteTime * noteHeightBase;
+        const topLeftY =
+          p.height - WATERFALL_TOP_PADDING - noteTime * noteHeightBase;
 
         const topRightX = topLeftX + noteLaneWidth;
 
@@ -154,7 +155,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         p.text(note.note, topLeftX, topLeftY);
       });
 
-      p.line(0, currentTime, p.width, currentTime);
+      p.line(0, p.height - currentTime, p.width, p.height - currentTime);
     };
   };
 
