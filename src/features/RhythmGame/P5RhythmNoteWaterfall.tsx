@@ -6,7 +6,11 @@ import { P5Container } from "../../components/p5/P5Container";
 import { GameState, RhythmNote } from "./types";
 import { useRhythmGameStore } from "../../store/rhythm-game";
 import * as Tone from "tone";
-import { INVISIBLE_GAP, WATERFALL_TIME_GAP } from "./constants";
+import {
+  INVISIBLE_GAP,
+  WATERFALL_TIME_GAP,
+  WATERFALL_TOP_PADDING,
+} from "./constants";
 import { BaseNote } from "../../store/input";
 
 const PIANO_KEY_POSITION_MAP: Record<BaseNote, number> = {
@@ -74,7 +78,8 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       const NUMBER_OF_OCTAVES = 8;
       const NUMBER_OF_NOTE_GROUPS = 7;
       const noteLaneWidth = p.width / NUMBER_OF_OCTAVES / NUMBER_OF_NOTE_GROUPS;
-      const noteHeightBase = p.height / WATERFALL_TIME_GAP; // Pixels per second (splits height into second segments)
+      const noteHeightBase =
+        (p.height - WATERFALL_TOP_PADDING) / WATERFALL_TIME_GAP; // Pixels per second (splits height into second segments)
 
       p.strokeWeight(2);
       p.stroke(BASE_COLORS[`gray-7`]);
@@ -110,7 +115,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         const start = note.time;
         const end = note.time + note.duration;
 
-        const isWithin = start >= currentTime;
+        const isWithin = end >= currentTime - 1; // We add a buffer past canvas
         const isBeforeEnd = start <= maxTime;
 
         return isWithin && isBeforeEnd;
@@ -130,12 +135,12 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         const topLeftX = (p.width / 7) * PIANO_KEY_POSITION_MAP[noteType];
         // Calculate the vertical position based off notes time, current time, and the height/scale of window
         const noteTime = note.time - currentTime; // if it's 4 seconds played, and note is at 5 seconds, it looks like 1 second inside gap
-        const topLeftY = noteTime * noteHeightBase;
+        const topLeftY = WATERFALL_TOP_PADDING + noteTime * noteHeightBase;
 
         const topRightX = topLeftX + noteLaneWidth;
 
         // Bottom
-        const bottomY = topLeftY - note.duration * noteHeightBase;
+        const bottomY = topLeftY + note.duration * noteHeightBase;
 
         // Note block
         p.beginShape();
@@ -149,7 +154,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         p.text(note.note, topLeftX, topLeftY);
       });
 
-      p.line(0, currentTime * 10, p.width, currentTime * 10);
+      p.line(0, currentTime, p.width, currentTime);
     };
   };
 
