@@ -8,11 +8,17 @@ import { useRhythmGameStore } from "../../store/rhythm-game";
 import * as Tone from "tone";
 import {
   INVISIBLE_GAP,
+  WATERFALL_KEY_HEIGHT,
   WATERFALL_TIME_GAP,
   WATERFALL_TOP_PADDING,
 } from "./constants";
-import { BaseNote } from "../../store/input";
+import { BaseNote, useInputStore } from "../../store/input";
+import {
+  generateAllKeysByOctaveInOrder,
+  generateKeysByOctave,
+} from "../../utils/music-keyboard";
 
+// Maps the notes to their corresponding in an octave
 const PIANO_KEY_POSITION_MAP: Record<BaseNote, number> = {
   C: 0,
   D: 1,
@@ -48,6 +54,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       p.createCanvas(width ?? window.innerWidth, height ?? window.innerHeight);
       p.stroke(255); // Set line drawing color to white
       p.frameRate(30);
+      p.textSize(8);
     };
     p.draw = () => {
       // console.log('drawing!!')
@@ -61,6 +68,8 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         currentTrack,
         midiFile,
       } = useRhythmGameStore.getState();
+
+      const { input } = useInputStore.getState();
 
       if (midiFile && midiFile.tracks.length === 0) return;
 
@@ -80,6 +89,8 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       const noteLaneWidth = p.width / NUMBER_OF_OCTAVES / NUMBER_OF_NOTE_GROUPS;
       const noteHeightBase =
         (p.height - WATERFALL_TOP_PADDING) / WATERFALL_TIME_GAP; // Pixels per second (splits height into second segments)
+      const octaveWidth = p.width / NUMBER_OF_NOTE_GROUPS;
+      const noteWidth = octaveWidth / NUMBER_OF_NOTE_GROUPS;
 
       p.strokeWeight(2);
       p.stroke(BASE_COLORS[`gray-7`]);
@@ -137,22 +148,37 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         const noteTime = note.time - currentTime; // if it's 4 seconds played, and note is at 5 seconds, it looks like 1 second inside gap
         const topLeftY =
           p.height - WATERFALL_TOP_PADDING - noteTime * noteHeightBase;
-
-        const topRightX = topLeftX + noteLaneWidth;
-
         // Bottom
-        const bottomY = topLeftY + note.duration * noteHeightBase;
+        const height = note.duration * noteHeightBase;
 
         // Note block
-        p.beginShape();
-        p.vertex(topLeftX, topLeftY);
-        p.vertex(topRightX, topLeftY);
-        p.vertex(topRightX, bottomY);
-        p.vertex(topLeftX, bottomY);
-        p.endShape();
+        p.rect(topLeftX, topLeftY, noteLaneWidth, height);
 
         // Label
         p.text(note.note, topLeftX, topLeftY);
+      });
+
+      p.strokeWeight(2);
+      p.stroke(BASE_COLORS[`gray-4`]);
+
+      // Generate keys
+      const pianoKeys = generateKeysByOctave(true);
+      // console.log("piano keys", pianoKeys);
+      pianoKeys.map((octave, octaveIndex) => {
+        octave.map((note, noteIndex) => {
+          const isBlackNote = note.includes("#");
+          p.fill(isBlackNote ? BASE_COLORS[`gray-8`] : BASE_COLORS[`gray-1`]);
+          // Handle "pressed" interaction with input
+          if (input[note]) p.fill(BASE_COLORS[`cyan-4`]);
+          const noteType = note.slice(0, -1) as BaseNote;
+          const x =
+            octaveWidth * octaveIndex +
+            noteWidth * PIANO_KEY_POSITION_MAP[noteType];
+          const y = p.height - WATERFALL_KEY_HEIGHT;
+          p.rect(x, y, noteWidth, WATERFALL_KEY_HEIGHT);
+          p.fill(BASE_COLORS[`gray-8`]);
+          p.text(note, x, y);
+        });
       });
 
       p.line(0, p.height - currentTime, p.width, p.height - currentTime);
