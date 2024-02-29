@@ -24,6 +24,8 @@ const PIANO_KEY_POSITION_MAP: Record<BaseNote, number> = {
   "A#": 5.5,
 };
 
+type Lines = number[];
+
 type Props = {
   width: CSSProperties["width"];
   height: CSSProperties["height"];
@@ -35,6 +37,8 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
   const divRef = useRef<HTMLDivElement | null>(null);
 
   const Sketch = (p) => {
+    let lines: Lines = [];
+
     p.setup = () => {
       console.log("setup canvas");
       p.createCanvas(width ?? window.innerWidth, height ?? window.innerHeight);
@@ -64,7 +68,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         currentTime = now - startTime + elapsedTime;
       }
 
-      console.log(currentTime);
+      console.log("current time", currentTime);
 
       // Calculate sizing
       const NUMBER_OF_OCTAVES = 8;
@@ -73,11 +77,28 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       const noteHeightBase = p.height / WATERFALL_TIME_GAP; // Pixels per second (splits height into second segments)
 
       p.strokeWeight(2);
-      p.stroke(BASE_COLORS[`gray-4`]);
-      new Array(WATERFALL_TIME_GAP).fill(0).forEach((_, index) => {
-        const y = (index + 1) * noteHeightBase;
+      p.stroke(BASE_COLORS[`gray-7`]);
+
+      // Delete old lines
+      lines = lines.filter((line) => line < currentTime);
+
+      // Create new lines as needed
+      const numLines = Math.floor(currentTime);
+      for (
+        let index = numLines;
+        index < numLines + WATERFALL_TIME_GAP + 2;
+        index++
+      ) {
+        if (!lines.find((line) => line == index)) {
+          lines.push(index);
+        }
+      }
+
+      // Draw lines
+      lines.forEach((line) => {
+        const y = (line - currentTime) * noteHeightBase;
         p.line(p.width - 20, y, p.width, y);
-        p.text(index + 1, p.width - 20, y);
+        p.text(line, p.width - 20, y);
       });
 
       // Grab the notes and display them
