@@ -38,7 +38,7 @@ const RhythmGame = (props: Props) => {
 
   const loadMidiFile = async () => {
     // load a midi file in the browser
-    const midi = await Midi.fromUrl("songs/ff8-balamb-garden.mid");
+    const midi = await Midi.fromUrl("songs/zelda-ocarina-of-time.mid");
     if (!midi) return;
 
     const newMidiFile: MIDIFile = {
@@ -118,6 +118,13 @@ const RhythmGame = (props: Props) => {
     setPlaying(false);
     setStartTime(0);
   };
+
+  // Show all tracks with notes beginning 4 seconds or sooner
+  // Good for debugging songs that start late (like 5 seconds in)
+  //   console.log(
+  //     "midi tracks",
+  //     midiFile.tracks.filter((track) => track.notes.find((note) => note.time < 4))
+  //   );
 
   return (
     <div>
