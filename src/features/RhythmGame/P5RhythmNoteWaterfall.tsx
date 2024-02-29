@@ -86,7 +86,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       // Calculate sizing
       const NUMBER_OF_OCTAVES = 8;
       const NUMBER_OF_NOTE_GROUPS = 7;
-      const noteLaneWidth = p.width / NUMBER_OF_OCTAVES / NUMBER_OF_NOTE_GROUPS;
+      // const noteLaneWidth = p.width / NUMBER_OF_OCTAVES / NUMBER_OF_NOTE_GROUPS;
       const noteHeightBase =
         (p.height - WATERFALL_TOP_PADDING) / WATERFALL_TIME_GAP; // Pixels per second (splits height into second segments)
       const octaveWidth = p.width / NUMBER_OF_NOTE_GROUPS;
@@ -111,9 +111,12 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       }
 
       // Draw lines
+      p.fill(BASE_COLORS[`gray-6`]);
       lines.forEach((line) => {
         const y = (line - currentTime) * noteHeightBase;
+        p.strokeWeight(2);
         p.line(p.width - 20, p.height - y, p.width, p.height - y);
+        p.strokeWeight(0);
         p.text(line, p.width - 20, p.height - y);
       });
 
@@ -137,13 +140,19 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       // Line mesh thing
       p.strokeWeight(2);
       p.stroke(BASE_COLORS[`cyan-4`]);
+      p.fill(BASE_COLORS[`gray-8`]);
 
       visibleNotes.forEach((note) => {
         // Get note letter (C, D, etc)
         const noteType = note.note.slice(0, -1) as BaseNote;
+        const octaveIndex = Number(note.note.replace(/\D/g, "")) - 1;
         // Get position
         // Top
-        const topLeftX = (p.width / 7) * PIANO_KEY_POSITION_MAP[noteType];
+        // const topLeftX = (p.width / 7) * PIANO_KEY_POSITION_MAP[noteType];
+        const topLeftX =
+          octaveWidth * octaveIndex +
+          noteWidth * PIANO_KEY_POSITION_MAP[noteType];
+
         // Calculate the vertical position based off notes time, current time, and the height/scale of window
         const noteTime = note.time - currentTime; // if it's 4 seconds played, and note is at 5 seconds, it looks like 1 second inside gap
         const topLeftY =
@@ -152,7 +161,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         const height = note.duration * noteHeightBase;
 
         // Note block
-        p.rect(topLeftX, topLeftY, noteLaneWidth, height);
+        p.rect(topLeftX, topLeftY, noteWidth, height);
 
         // Label
         p.text(note.note, topLeftX, topLeftY);
