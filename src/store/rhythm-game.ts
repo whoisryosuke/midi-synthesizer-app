@@ -10,6 +10,9 @@ export interface RhythmGameStore {
   paused: boolean;
   setPaused: (paused: boolean) => void;
 
+  score: number;
+  setScore: (score: number) => void;
+
   // Current playback time for piano roll
   startTime: number;
   elapsedTime: number;
@@ -45,6 +48,12 @@ export const useRhythmGameStore = create<RhythmGameStore>()(
     setElapsedTime: (elapsedTime) =>
       set(() => ({
         elapsedTime,
+      })),
+
+    score: 0,
+    setScore: (score) =>
+      set(() => ({
+        score,
       })),
 
     currentTrack: 0,

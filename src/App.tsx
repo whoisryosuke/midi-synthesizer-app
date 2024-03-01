@@ -26,7 +26,7 @@ export default function App() {
         <RhythmGame />
         <MusicSwitcher />
         <Keyboard />
-        <KeyboardUI />
+        {/* <KeyboardUI /> */}
         <TestPanel />
       </div>
     </Page>

@@ -12,6 +12,7 @@ import P5RhythmNoteWaterfall from "./P5RhythmNoteWaterfall";
 import * as Tone from "tone";
 import Button from "../../components/primitives/Button";
 import { useRhythmGameStore } from "../../store/rhythm-game";
+import Text from "../../components/primitives/Text";
 
 const DEFAULT_STATE: GameState = {
   playing: false,
@@ -35,6 +36,7 @@ const RhythmGame = (props: Props) => {
     setElapsedTime,
     midiFile,
     addMidiFile,
+    score,
   } = useRhythmGameStore();
 
   const loadMidiFile = async () => {
@@ -138,6 +140,7 @@ const RhythmGame = (props: Props) => {
   return (
     <div>
       <h1>{midiFile?.name ?? "Couldn't load file"}</h1>
+      <Text>{score}</Text>
       <Button onClick={handlePlay}>
         {playing ? (paused ? "Resume" : "Pause") : "Play"}
       </Button>
