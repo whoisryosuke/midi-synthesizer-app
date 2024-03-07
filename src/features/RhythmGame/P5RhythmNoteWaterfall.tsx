@@ -56,6 +56,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
 
   const Sketch = (p) => {
     let lines: Lines = [];
+    let visibleNotes: RhythmNote[] = [];
     let pressedNotes: Record<Note, PressedNote | null> = {
       C1: null,
       C2: null,
@@ -183,7 +184,7 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
       const allNotes = midiFile.tracks[currentTrack].notes;
       const maxTime = currentTime + WATERFALL_TIME_GAP + INVISIBLE_GAP;
       // Filter notes by only visible
-      const visibleNotes = allNotes.filter((note) => {
+      allNotes.forEach((note) => {
         // Check if note is within region
         const start = note.time;
         const end = note.time + note.duration;
@@ -191,14 +192,27 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         const isWithin = end >= currentTime - INVISIBLE_GAP; // We add a buffer past canvas
         const isBeforeEnd = start <= maxTime + 3;
 
-        return isWithin && isBeforeEnd;
+        // If it's within time - and we haven't spawned it - spawn one!
+        if (
+          isWithin &&
+          isBeforeEnd &&
+          !visibleNotes.find(
+            (visibleNote) =>
+              `${visibleNote.note}-${visibleNote.time}` ===
+              `${note.note}-${note.time}`
+          )
+        ) {
+          visibleNotes.push(note);
+        }
       });
       // console.log("visibleNotes", visibleNotes);
 
       // Clear any notes not visible
-      Object.keys(pressedNotes).forEach((note) => {
-        if (!visibleNotes.find((visibleNote) => visibleNote.note === note)) {
-          pressedNotes[note as Note] = null;
+      visibleNotes = visibleNotes.filter((note) => {
+        if (currentTime < note.time + note.duration + GAMEPLAY_ERROR_MARGIN) {
+          // Clear the input state
+          pressedNotes[note.note as Note] = null;
+          return true;
         }
       });
 
@@ -224,7 +238,10 @@ const P5RhythmNoteWaterfall = ({ width, height, ...props }: Props) => {
         // Did the note pass chance for hitting it?
         if (visibleNote.time + GAMEPLAY_ERROR_MARGIN < currentTime) {
           // and user hasn't pressed? Mark as failed.
-          if (!pressedNotes[currentNote]) {
+          if (
+            pressedNotes[currentNote] === null &&
+            pressedNotes[currentNote]?.state !== "pressed"
+          ) {
             pressedNotes[currentNote] = {
               state: "failed",
               time: visibleNote.time,
